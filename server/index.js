@@ -2,7 +2,8 @@
 
 
 const keypressHandler = require('./js/keypressHandler');
-keypressHandler.initialize(message => console.log(`Message received: ${message}`));
+keypressHandler.initialize(message => httpHandler.initialize(message));
+// initialize from httpHandler server side
 
 const httpHandler = require('./js/httpHandler');
 

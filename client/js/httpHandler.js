@@ -1,8 +1,10 @@
 (function() {
 
   const serverUrl = 'http://127.0.0.1:3000';
-console.log(':)');
+  console.log(':)');
   setInterval(function(){$.get('http://127.0.0.1:3000', (data) => SwimTeam.move(data))}, 2000);
+  // $.get('http://127.0.0.1:3000', (data) => SwimTeam.move(data));
+
 
   /////////////////////////////////////////////////////////////////////
   // The ajax file uplaoder is provided for your convenience!
