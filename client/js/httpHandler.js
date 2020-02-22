@@ -1,10 +1,8 @@
 (function() {
 
   const serverUrl = 'http://127.0.0.1:3000';
-
-  //
-  // TODO: build the swim command fetcher here
-  //
+console.log(':)');
+  setInterval(function(){$.get('http://127.0.0.1:3000', (data) => SwimTeam.move(data))}, 2000);
 
   /////////////////////////////////////////////////////////////////////
   // The ajax file uplaoder is provided for your convenience!
@@ -17,7 +15,7 @@
     $.ajax({
       type: 'POST',
       data: formData,
-      url: 'FILL_ME_IN',
+      url: serverUrl,
       cache: false,
       contentType: false,
       processData: false,
