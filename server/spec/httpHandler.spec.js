@@ -3,6 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const expect = require('chai').expect;
 const server = require('./mockServer');
+const messageQ = require('../js/messageQueue.js');
 
 const httpHandler = require('../js/httpHandler');
 
@@ -12,7 +13,6 @@ describe('server responses', () => {
 
   it('should respond to a OPTIONS request', (done) => {
     let {req, res} = server.mock('/', 'OPTIONS');
-
     httpHandler.router(req, res);
     expect(res._responseCode).to.equal(200);
     expect(res._ended).to.equal(true);
@@ -22,8 +22,20 @@ describe('server responses', () => {
   });
 
   it('should respond to a GET request for a swim command', (done) => {
-    // write your test here
-    done();
+    let {req, res} = server.mock('/', 'GET');
+
+      var keypresses = ['left', 'right', 'up', 'down'];
+      httpHandler.router(req, res);
+      // var buf = Buffer.from(res._data);
+      var messageQueue = messageQ;
+      console.log(messageQueue);
+      messageQueue.enqueue('left');
+      expect(res._responseCode).to.equal(200);
+      expect(res._ended).to.equal(true);
+      console.log('HERE IS THE DATA', res._data);
+      expect(keypresses).to.contain(res._data.toString());
+      // expect(res._data.toString()).to.equal('right' || 'left' || 'up' || 'down');
+      done();
   });
 
   xit('should respond with 404 to a GET request for a missing background image', (done) => {
@@ -47,7 +59,7 @@ describe('server responses', () => {
   xit('should respond to a POST request to save a background image', (done) => {
     fs.readFile(postTestFile, (err, fileData) => {
       httpHandler.backgroundImageFile = path.join('.', 'spec', 'temp.jpg');
-      let {req, res} = server.mock('FILL_ME_IN', 'POST', fileData);
+      let {req, res} = server.mock('GET', 'POST', fileData);
 
       httpHandler.router(req, res, () => {
         expect(res._responseCode).to.equal(201);
